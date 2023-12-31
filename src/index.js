@@ -3,7 +3,7 @@ import { createCors } from 'itty-cors'
 const { preflight, corsify } = createCors({
 	// GET is included by default... omit this if only using GET
 	// methods: ['GET', 'POST', 'DELETE'],
-	origins: ['https://remkar.pages.dev/'],
+	origins: ['https://remkar.pages.dev', 'http://localhost:5173'],
 	maxAge: 3600,
 });
 
@@ -26,7 +26,6 @@ export default {
 					`SELECT * FROM songs WHERE id = ?;`
 				)
 					.bind(parseInt(params.id, 10)).all();
-				console.log(results);
 				return new Response(JSON.stringify(results[0]));
 			});
 
@@ -35,23 +34,21 @@ export default {
 					`SELECT * FROM songs WHERE hash LIKE ?;`
 				)
 					.bind(`%${params.query}%`).all();
-				console.log(results);
-				return new Response(JSON.stringify(results));
+				return new Response(JSON.stringify(results.slice(0, 100)));
 			});
 
-			router.get('/all', async () => {
-				const { results } = await env.DB.prepare(
-					`SELECT * FROM songs;`
-				).all();
-				console.log(results);
-				return new Response(`Karaoke Search: ${JSON.stringify(results)}`);
-			});
+			// router.get('/all', async () => {
+			// 	const { results } = await env.DB.prepare(
+			// 		`SELECT * FROM songs;`
+			// 	).all();
+			// 	return new Response(`Karaoke Search: ${JSON.stringify(results)}`);
+			// });
 
 			// 404 for everything else
 			router.all('*', () => new Response('Not Found.', { status: 404 }));
 			env.__router = router;
 		}
 
-		return env.__router.handle(request);
+		return env.__router.handle(request).then(corsify);
 	},
 };
