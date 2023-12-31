@@ -1,9 +1,21 @@
 import { Router } from 'itty-router';
+import { createCors } from 'itty-cors'
+const { preflight, corsify } = createCors({
+	// GET is included by default... omit this if only using GET
+	// methods: ['GET', 'POST', 'DELETE'],
+	origins: ['https://remkar.pages.dev/'],
+	maxAge: 3600,
+});
 
 export default {
 	async fetch(request, env) {
 		if (!env.__router) {
+
 			const router = Router();
+			router
+				.all('*', preflight)
+				.get('/version', () => corsify(json({ version: '0.1.0' })));
+
 			// GET collection index
 			router.get('/', () => new Response('index'));
 
