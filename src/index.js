@@ -27,19 +27,19 @@ export default {
 				return new Response(JSON.stringify(results));
 			});
 
-			router.get('/all', async() => {
+			router.get('/all', async () => {
 				const { results } = await env.DB.prepare(
 					`SELECT * FROM songs;`
 				).all();
-				console.log(allRows);
-				return new Response(`Karaoke Search: ${JSON.stringify(allRows)}`);
-			})
+				console.log(results);
+				return new Response(`Karaoke Search: ${JSON.stringify(results)}`);
+			});
 
 			// 404 for everything else
 			router.all('*', () => new Response('Not Found.', { status: 404 }));
 			env.__router = router;
 		}
-		
+
 		return env.__router.handle(request);
 	},
 };
