@@ -2,6 +2,10 @@ name = "karaoke-db"
 main = "src/index.js"
 compatibility_date = "2023-12-18"
 
+[observability]
+enabled = true
+head_sampling_rate = 1
+
 [[ d1_databases ]]
 binding = "DB" # available in your Worker on env.DB
 database_name = "karaoke-db"
