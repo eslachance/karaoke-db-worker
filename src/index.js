@@ -3,7 +3,7 @@ import { createSessionsMiddleware } from 'itty-session';
 import BriteLite from 'britelite';
 
 const { preflight, corsify } = cors({
-  origin: ['https://remkar.pages.dev', 'http://localhost:5173'],
+  origin: ['https://remkar.pages.dev', 'http://localhost:5173', 'https://barlaremise.com'],
   // origin: '*',
   maxAge: 3600,
 });
@@ -11,7 +11,7 @@ const { preflight, corsify } = cors({
 export default {
   async fetch(request, env, ctx) {
     const { sessionPreflight, destroy, sessionify } = await createSessionsMiddleware(env, env.DB);
-    const db = new BriteLite({ name: 'remkar-users', db: env.DB });
+    const db = new BriteLite({ name: 'users', db: env.DB });
 
     if (!env.__router) {
 

@@ -7,7 +7,7 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "initdb": "wrangler d1 execute karaoke-db --local --file=./schema.sql",
-    "deploydb": "wrangler d1 execute karaoke-db --file=./schema.sql"
+    "deploydb": "wrangler d1 execute karaoke-db --remote --file=./schema.sql"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -16,7 +16,6 @@
   "dependencies": {
     "britelite": "^1.1.0",
     "itty-cors": "^0.3.7",
-    "itty-router": "^5.0.18",
-    "itty-session": "^0.1.2"
+    "itty-router": "^5.0.18"
   }
 }
