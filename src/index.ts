@@ -40,7 +40,7 @@ const router = AutoRouter<SessionRequest, CFArgs>({
   finally: [corsify, sessionify],
 });
 
-router.get('/song/:id', async ({ id }, env) => {
+router.get('/api/song/:id', async ({ id }, env) => {
   const { results: files } = await env.DB.prepare('SELECT * FROM files WHERE songid = ?;')
     .bind(Number.parseInt(id))
     .all();
@@ -54,14 +54,14 @@ router.get('/song/:id', async ({ id }, env) => {
   };
 });
 
-router.get('/search/:query', async ({ params }, env) => {
+router.get('/api/search/:query', async ({ params }, env) => {
   const { results } = await env.DB.prepare('SELECT * FROM songs WHERE hash LIKE ?;')
     .bind(`%${params.query}%`)
     .all();
   return results.slice(0, 100);
 });
 
-router.post('/login', withContent, async (request) => {
+router.post('/api/login', withContent, async (request) => {
   const { content, britelite } = request;
   const user = await britelite.get(content.username);
   if (!user) {
@@ -88,7 +88,7 @@ router.post('/login', withContent, async (request) => {
   };
 });
 
-router.get('/me', (request) => {
+router.get('/api/me', (request) => {
   if (!request.session?.isLoggedIn) {
     return { message: 'not logged in', isLoggedIn: false };
   }
@@ -102,7 +102,7 @@ router.get('/me', (request) => {
   };
 });
 
-router.get('/logout', async (request) => {
+router.get('/api/logout', async (request) => {
   request.session.username = null;
   request.session.isLoggedIn = false;
   request.session?.destroy(request);
@@ -113,7 +113,7 @@ router.get('/logout', async (request) => {
   };
 });
 
-router.post('/signup', withContent, async (request) => {
+router.post('/api/signup', withContent, async (request) => {
   return {
     success: false,
     message: 'not implemented',
