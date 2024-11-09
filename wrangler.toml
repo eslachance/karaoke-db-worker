@@ -2,11 +2,11 @@ name = "karaoke-db"
 main = "src/index.ts"
 compatibility_date = "2023-12-18"
 
+d1_databases = [
+    { binding = "DB", database_name = "karaoke-db", database_id = "ba8815f1-ac9b-4279-b270-fd9bed80bc24" },
+    { binding = "SESSIONS", database_name = "karaoke-sessions", database_id = "79532795-0041-4f7c-b59b-2198e55ad720" }
+]
+
 [observability]
 enabled = true
 head_sampling_rate = 1
-
-[[ d1_databases ]]
-binding = "DB" # available in your Worker on env.DB
-database_name = "karaoke-db"
-database_id = "ba8815f1-ac9b-4279-b270-fd9bed80bc24"
