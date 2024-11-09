@@ -10,7 +10,9 @@ const { preflight, corsify } = cors({
 });
 
 // SESSION HANDLERS
-const { sessionPreflight, sessionify } = createSessionsMiddleware();
+const { sessionPreflight, sessionify } = createSessionsMiddleware({
+  logging: true,
+});
 
 // BRITELITE MIDDLEWARE
 const addBriteLite = (request, env) => {
@@ -61,7 +63,6 @@ router.get('/search/:query', async ({ params }, env) => {
 
 router.post('/login', withContent, async (request) => {
   const { content, britelite } = request;
-  console.log(content);
   const user = await britelite.get(content.username);
   if (!user) {
     return { message: 'username not found' };
@@ -70,6 +71,9 @@ router.post('/login', withContent, async (request) => {
     return { message: 'wrong password' };
   }
   request.session.username = user.username;
+  request.session.isAdmin = user.isAdmin;
+  request.session.name = user.name;
+  request.session.avatar = user.avatar;
   request.session.isLoggedIn = true;
 
   return {
@@ -86,13 +90,14 @@ router.post('/login', withContent, async (request) => {
 
 router.get('/me', (request) => {
   if (!request.session?.isLoggedIn) {
-    return { message: 'not logged in' };
+    return { message: 'not logged in', isLoggedIn: false };
   }
 
   return {
     username: request.session?.username,
-    avatar: 'https://avatars.githubusercontent.com/u/1019278?v=4',
-    role: 'admin',
+    name: request.session?.name,
+    avatar: request.session?.avatar,
+    isAdmin: request.session?.isAdmin,
     isLoggedIn: true,
   };
 });

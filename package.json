@@ -14,11 +14,11 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "cookie": "^1.0.1",
-    "wrangler": "^3.84.1"
+    "wrangler": "^3.86.0"
   },
   "dependencies": {
     "britelite": "^1.1.0",
     "itty-router": "^5.0.18",
-    "itty-session": "^0.2.0"
+    "itty-session": "^0.2.1"
   }
 }
