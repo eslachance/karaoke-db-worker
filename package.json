@@ -19,6 +19,6 @@
   "dependencies": {
     "britelite": "^1.1.0",
     "itty-router": "^5.0.18",
-    "itty-session": "^0.2.1"
+    "itty-session": "^0.3.0"
   }
 }

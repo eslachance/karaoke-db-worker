@@ -2,6 +2,7 @@ import BriteLite from 'britelite';
 import type { IRequest } from 'itty-router';
 import { AutoRouter, cors, withContent } from 'itty-router';
 import { createSessionsMiddleware } from 'itty-session';
+import D1Provider from 'itty-session/providers/d1';
 
 // CORS HANDLERS
 const { preflight, corsify } = cors({
@@ -12,6 +13,11 @@ const { preflight, corsify } = cors({
 // SESSION HANDLERS
 const { sessionPreflight, sessionify } = createSessionsMiddleware({
   logging: true,
+  Provider: D1Provider,
+  providerOptions: {
+    dbName: 'SESSIONS',
+    tableName: 'sessions',
+  }
 });
 
 // BRITELITE MIDDLEWARE
