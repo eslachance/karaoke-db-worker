@@ -13,12 +13,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@eslint/js": "^9.14.0",
     "cookie": "^1.0.1",
     "wrangler": "^3.86.0"
   },
   "dependencies": {
     "britelite": "^1.1.0",
     "itty-router": "^5.0.18",
-    "itty-session": "^0.3.0"
+    "itty-session": "^0.4.1"
   }
 }
