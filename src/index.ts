@@ -1,6 +1,6 @@
 import BriteLite from 'britelite';
 import type { IRequest } from 'itty-router';
-import { AutoRouter, cors, withContent } from 'itty-router';
+import { AutoRouter, cors, json, error, withContent } from 'itty-router';
 import { createSessionsMiddleware } from 'itty-session';
 import Provider from 'itty-session/providers/d1';
 
@@ -22,7 +22,7 @@ const { sessionPreflight, sessionify } = createSessionsMiddleware({
 
 // BRITELITE MIDDLEWARE
 const addBriteLite = (request, env) => {
-  request.britelite = new BriteLite({ name: 'users', db: env.DB });
+  request.britelite = new BriteLite({ name: 'users', db: env.SESSIONS });
 };
 
 type SessionRequest = {
@@ -43,7 +43,7 @@ const router = AutoRouter<SessionRequest, CFArgs>({
     preflight,
     sessionPreflight,
   ],
-  finally: [corsify, sessionify],
+  finally: [corsify, sessionify, json],
 });
 
 router.get('/api/song/:id', async ({ id }, env) => {
@@ -143,6 +143,8 @@ router.post('/api/signup', withContent, async (request) => {
   //   isLoggedIn: true,
   // };
 });
+
+router.all('*', () => error(404))
 
 addEventListener('error', (e) => {
   console.error(e.error);
