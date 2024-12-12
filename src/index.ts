@@ -60,11 +60,17 @@ router.get('/api/song/:id', async ({ id }, env) => {
   };
 });
 
-router.get('/api/search/:query', async ({ params }, env) => {
+router.get('/api/search/:query', async ({ params, query }, env) => {
+  console.log(params, query);
   const { results } = await env.DB.prepare('SELECT * FROM songs WHERE hash LIKE ?;')
     .bind(`%${params.query}%`)
     .all();
-  return results.slice(0, 100);
+  const currentPage = query.page ? +query.page : 1;
+  return {
+    results: query.page ? results.slice((currentPage - 1) * 25, currentPage * 25) : results,
+    total: results.length,
+    page: currentPage,
+  }
 });
 
 router.post('/api/login', withContent, async (request) => {
