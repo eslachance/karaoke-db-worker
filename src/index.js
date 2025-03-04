@@ -124,7 +124,7 @@ fastify.setErrorHandler((error, request, reply) => {
 const start = async () => {
   try {
     console.log("Starting fastify server on port", process.env.PORT || 3000);
-    await fastify.listen({ port: process.env.PORT || 3000 });
+    await fastify.listen({ port: process.env.PORT || 3000, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
