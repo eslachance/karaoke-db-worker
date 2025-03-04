@@ -2,24 +2,19 @@
   "name": "karaoke-db",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
-    "initdb": "wrangler d1 execute karaoke-db --local --file=./schema.sql",
-    "deploydb": "wrangler d1 execute karaoke-db --remote --file=./schema.sql",
-    "initsessions": "wrangler d1 execute karaoke-sessions --local --file=./sessions.sql",
-    "deploysessions": "wrangler d1 execute karaoke-sessions --remote --file=./sessions.sql"
+    "start": "node ."
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@eslint/js": "^9.14.0",
-    "cookie": "^1.0.1",
-    "wrangler": "^3.86.0"
+    "@eslint/js": "^9.14.0"
   },
   "dependencies": {
-    "britelite": "^1.1.0",
-    "itty-router": "^5.0.18",
-    "itty-session": "^0.4.1"
+    "@fastify/cookie": "^9.4.0",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/session": "^10.9.0",
+    "enmap": "^6.0.4",
+    "fastify": "^4.29.0"
   }
 }
